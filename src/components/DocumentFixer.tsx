@@ -38,12 +38,17 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
                 console.warn("Mammoth conversion warnings:", messages);
             }
             
+            
+            // Create a Blob URL for the HTML content to serve as the "Source Preview"
+            const blob = new Blob([html], { type: 'text/html' });
+            const sourceUrl = URL.createObjectURL(blob);
+            
             setText(html);
             let newBlocks = parseHtmlLegal(html);
             if (newBlocks.length === 0) {
                  newBlocks = [{ id: generateId(), content: 'No structured content found in DOCX.', type: 'p', depth: 0 }];
             }
-            onConvert(newBlocks, null); // No PDF URL for DOCX
+            onConvert(newBlocks, sourceUrl); // Pass the Blob URL as the "pdfUrl"
             setIsLoading(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
             return;

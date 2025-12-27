@@ -123,12 +123,17 @@ export function BlockItem({
             {listLabel}
           </div>
         )}
+        {(block.type === 'h3') && (
+          <div className="w-auto min-w-[1.5rem] h-6 flex items-center justify-end flex-shrink-0 mr-2 select-none text-xs font-bold text-blue-600 mt-1 z-10 relative">
+            Art.
+          </div>
+        )}
         <ContentBlock
           blockRefs={blockRefs}
           blockId={block.id}
           html={block.content}
           disabled={!isEditing}
-          tagName={['h1', 'h2'].includes(block.type) ? block.type : 'div'}
+          tagName={['h1', 'h2', 'h3'].includes(block.type) ? block.type : 'div'}
           onChange={(val) => onUpdateContent(block.id, val)}
           onKeyDown={(e) => onKeyDown(e, block.id)}
           onFocus={() => onFocus(block.id)}
@@ -136,6 +141,7 @@ export function BlockItem({
             w-full outline-none break-words relative z-10 min-h-[28px]
             ${block.type === 'h1' ? 'text-3xl font-bold mt-2 mb-1 text-gray-900 tracking-tight leading-tight' : ''}
             ${block.type === 'h2' ? 'text-xl font-semibold mt-1 mb-1 text-gray-800 tracking-tight leading-tight' : ''}
+            ${block.type === 'h3' ? 'text-lg font-bold mt-1 text-gray-800' : ''}
             ${['p', 'ul', 'ol', 'abc'].includes(block.type) ? 'text-base leading-7 text-gray-600' : ''}
             ${isEditing ? 'cursor-text' : 'cursor-default pointer-events-none'}
           `}

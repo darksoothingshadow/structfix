@@ -5,7 +5,7 @@ import { Block } from '../types';
 import { convertToXml, convertToHtml, downloadFile } from '../utils/document-utils';
 import { Toolbar } from './Toolbar';
 import { FloatingToolbar } from './FloatingToolbar';
-import { PdfPreview } from './PdfPreview';
+import { SourcePreview } from './SourcePreview';
 import { BlockItem } from './BlockItem';
 
 interface EditorProps {
@@ -174,7 +174,7 @@ export function Editor({ initialBlocks, pdfUrl, onBack }: EditorProps) {
     <div className="h-[calc(100vh-64px)] flex flex-col">
       <Toolbar onBack={onBack} onUndo={undo} onRedo={redo} canUndo={canUndo} canRedo={canRedo} historyIndex={historyIndex} historyLength={history.length} onDownload={handleDownload} />
       <div className="flex-1 flex overflow-hidden">
-        {pdfUrl && <PdfPreview pdfUrl={pdfUrl} onClose={onBack} />}
+        {pdfUrl && <SourcePreview url={pdfUrl} onClose={onBack} />}
         <div className="flex-1 overflow-y-auto bg-white relative outline-none" tabIndex={0} ref={containerRef} onKeyDown={handleGlobalKeyDown} onClick={clearSelection}>
           <div className="max-w-3xl mx-auto py-12 pr-8 pl-16 pb-48">
             <div className="mb-8 pb-4 border-b border-gray-100 flex justify-between items-end">
