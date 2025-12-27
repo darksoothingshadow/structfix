@@ -132,4 +132,41 @@ describe('Swiss Legal Document Patterns', () => {
       expect(result[8].type).toBe('h2'); // II.
     });
   });
+
+  describe('Full Document Integration (AI Canton Fixture)', () => {
+    it('correctly detects types in full Revision Personalverordnung', async () => {
+      // Dynamically import fixture to keep test file clean
+      const { REVISION_PERSONALVERORDNUNG_HTML, EXPECTED_BLOCK_TYPES } = await import('./fixtures/ai-canton');
+      
+      const blocks = parseHtmlLegal(REVISION_PERSONALVERORDNUNG_HTML);
+      
+      // Verify we got blocks
+      expect(blocks.length).toBeGreaterThan(30);
+      
+      // Check key patterns are detected
+      const sectionI = blocks.find(b => b.content.startsWith('I. Änderung'));
+      expect(sectionI?.type).toBe('h2');
+      
+      const art1 = blocks.find(b => b.content.startsWith('Art. 1 Abs.'));
+      expect(art1?.type).toBe('h3');
+      
+      const letteredA = blocks.find(b => b.content.startsWith('a. sie als'));
+      expect(letteredA?.type).toBe('abc');
+      
+      const sectionII = blocks.find(b => b.content === 'II.');
+      expect(sectionII?.type).toBe('h2');
+      
+      const sectionIV = blocks.find(b => b.content === 'IV.');
+      expect(sectionIV?.type).toBe('h2');
+      
+      // Count detected patterns
+      const h2Count = blocks.filter(b => b.type === 'h2').length;
+      const h3Count = blocks.filter(b => b.type === 'h3').length;
+      const abcCount = blocks.filter(b => b.type === 'abc').length;
+      
+      expect(h2Count).toBeGreaterThanOrEqual(4); // I., II., III., IV.
+      expect(h3Count).toBeGreaterThanOrEqual(6); // Art. 1, 2, 3, 7a, 23a, 26
+      expect(abcCount).toBe(3); // a., b., c.
+    });
+  });
 });

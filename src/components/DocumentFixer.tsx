@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Upload, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
-import { parseHtml, generateId } from '../utils/document-utils';
+import { parseHtmlLegal, generateId } from '../utils/document-utils';
 import { Block } from '../types';
 
 interface DocumentFixerProps {
@@ -53,7 +53,7 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
           const htmlContent = result.document.html_content;
           setText(htmlContent);
           
-          let newBlocks = parseHtml(htmlContent);
+          let newBlocks = parseHtmlLegal(htmlContent);
           if (newBlocks.length === 0) {
              newBlocks = [{ id: generateId(), content: 'No structured content found.', type: 'p', depth: 0 }];
           }
@@ -77,7 +77,7 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
 
     if (isHtml) {
       try {
-        newBlocks = parseHtml(text);
+        newBlocks = parseHtmlLegal(text);
       } catch (e) {
         console.error("Failed to parse HTML", e);
       }
