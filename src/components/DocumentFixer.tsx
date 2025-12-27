@@ -129,8 +129,7 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
                 Upload File
               </Button>
               <Button
-                className="flex-1 rounded-lg text-white hover:opacity-90"
-                style={{ backgroundColor: '#7a9b7a' }}
+                className="btn btn-primary flex-1 rounded-lg text-white hover:opacity-90"
                 onClick={handleConvert}
                 disabled={!text.trim() || isLoading}
               >
