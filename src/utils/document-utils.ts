@@ -104,53 +104,31 @@ export const parseHtml = (html: string): Block[] => {
   return blocks;
 };
 
-export const convertToXml = (nodes: TreeNode[]): string => {
+export const convertToXml = (blocks: Block[]): string => {
     const escape = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     
-    const visit = (node: TreeNode, indent: string) => {
-        let xml = `${indent}<block id="${node.id}" type="${node.type}">\n`;
-        xml += `${indent}  <content>${escape(node.content)}</content>\n`;
-        
-        if (node.children && node.children.length > 0) {
-            xml += `${indent}  <children>\n`;
-            node.children.forEach(child => {
-                xml += visit(child, indent + '    ');
-            });
-            xml += `${indent}  </children>\n`;
-        }
-        
-        xml += `${indent}</block>\n`;
-        return xml;
-    };
-
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<document>\n';
-    nodes.forEach(node => {
-        xml += visit(node, '  ');
+    blocks.forEach(block => {
+        xml += `  <block id="${block.id}" type="${block.type}" depth="${block.depth}">\n`;
+        xml += `    <content>${escape(block.content)}</content>\n`;
+        xml += `  </block>\n`;
     });
     xml += '</document>';
     return xml;
 };
 
-export const convertToHtml = (nodes: TreeNode[]): string => {
-     const visit = (node: TreeNode) => {
-         let html = '';
-         const tag = ['h1', 'h2'].includes(node.type) ? node.type : 'div';
-         html += `<${tag} data-id="${node.id}" class="block-${node.type}">${node.content}`;
-         
-         if (node.children && node.children.length > 0) {
-             html += '<div class="children" style="margin-left: 20px;">';
-             node.children.forEach(c => html += visit(c));
-             html += '</div>';
-         }
-         html += `</${tag}>`;
-         return html;
-     };
-     
-     return `<!DOCTYPE html>
+export const convertToHtml = (blocks: Block[]): string => {
+    const content = blocks.map(block => {
+        const tag = ['h1', 'h2'].includes(block.type) ? block.type : 'div';
+        const indent = block.depth * 20;
+        return `<${tag} data-id="${block.id}" class="block-${block.type}" style="margin-left: ${indent}px">${block.content}</${tag}>`;
+    }).join('\n');
+    
+    return `<!DOCTYPE html>
 <html>
 <head><title>Exported Document</title></head>
 <body>
-${nodes.map(visit).join('\n')}
+${content}
 </body>
 </html>`;
 };

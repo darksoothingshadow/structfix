@@ -166,7 +166,7 @@ export function Editor({ initialBlocks, pdfUrl, onBack }: EditorProps) {
   };
 
   const handleDownload = (format: 'xml' | 'html' | 'json') => {
-    const configs = { xml: { c: convertToXml(blocks as any), m: 'application/xml', e: 'xml' }, html: { c: convertToHtml(blocks as any), m: 'text/html', e: 'html' }, json: { c: JSON.stringify(blocks, null, 2), m: 'application/json', e: 'json' } };
+    const configs = { xml: { c: convertToXml(blocks), m: 'application/xml', e: 'xml' }, html: { c: convertToHtml(blocks), m: 'text/html', e: 'html' }, json: { c: JSON.stringify(blocks, null, 2), m: 'application/json', e: 'json' } };
     downloadFile(configs[format].c, `document.${configs[format].e}`, configs[format].m);
   };
 

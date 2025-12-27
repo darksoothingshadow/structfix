@@ -31,10 +31,17 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
       formData.append('files', file);
       formData.append('to_formats', 'html');
 
+      // 5s timeout per @safety-officer protocol
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
       const response = await fetch(apiEndpoint, {
           method: 'POST',
           body: formData,
+          signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         const err = await response.text();
@@ -81,7 +88,7 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
       newBlocks = lines.map((line) => ({
         id: generateId(),
         content: line.trim(),
-        type: 'p' as any,
+        type: 'p' as const,
         depth: 0,
       })).filter(b => b.content.length > 0);
     }
