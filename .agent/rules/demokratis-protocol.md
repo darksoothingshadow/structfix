@@ -23,7 +23,7 @@ Before generating any code artifact, verify against all three agents:
 
 ### Reliability Over Cleverness
 - **Rule**: Undo stack is sacred.
-- **Application**: All mutations via `commitBlocks()`.
+- **Application**: All mutations via [commitBlocks()](cci:1://file:///root/structfix/index.tsx:371:2-377:4).
 
 ### Second-Order Effects
 - **Rule**: Consider perf cost.
