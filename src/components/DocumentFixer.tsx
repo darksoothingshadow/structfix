@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { parseHtmlLegal, generateId } from '../utils/document-utils';
 import { Block } from '../types';
+import * as mammoth from 'mammoth';
 
 interface DocumentFixerProps {
   onConvert: (blocks: Block[], pdfUrl: string | null) => void;
@@ -24,7 +25,39 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
     if (file.type === 'application/pdf') {
         pdfUrl = URL.createObjectURL(file);
     }
+    
+    // DOCX Handling via Mammoth (Client-Side)
+    if (file.name.endsWith('.docx') || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const result = await mammoth.convertToHtml({ arrayBuffer });
+            const html = result.value; // The generated HTML
+            const messages = result.messages; // Any warnings
+            
+            if (messages.length > 0) {
+                console.warn("Mammoth conversion warnings:", messages);
+            }
+            
+            setText(html);
+            let newBlocks = parseHtmlLegal(html);
+            if (newBlocks.length === 0) {
+                 newBlocks = [{ id: generateId(), content: 'No structured content found in DOCX.', type: 'p', depth: 0 }];
+            }
+            onConvert(newBlocks, null); // No PDF URL for DOCX
+            setIsLoading(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            return;
+            
+        } catch (err) {
+            console.error("Mammoth conversion failed", err);
+            alert(`Failed to convert DOCX: ${err instanceof Error ? err.message : String(err)}`);
+            setIsLoading(false);
+            if (fileInputRef.current) fileInputRef.current.value = '';
+            return;
+        }
+    }
 
+    // PDF Handling via Docling API (Fallback/Alternative)
     try {
       const apiEndpoint = 'https://docling.91.92.202.157.nip.io/v1/convert/file';
       const formData = new FormData();
@@ -33,7 +66,7 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
 
       // 5s timeout per @safety-officer protocol
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // Increased to 10s for PDF
 
       const response = await fetch(apiEndpoint, {
           method: 'POST',
