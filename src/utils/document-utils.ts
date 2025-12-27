@@ -104,6 +104,78 @@ export const parseHtml = (html: string): Block[] => {
   return blocks;
 };
 
+/**
+ * Swiss Legal Document Pattern Detection
+ * Post-processes blocks to detect legal document structure
+ */
+const LEGAL_PATTERNS = {
+  // Art. 1, Art. 23a, Art. 1 Abs. 2
+  article: /^Art\.\s*\d+[a-z]?(\s+Abs\.\s*\d+)?/i,
+  // I., II., III., IV., V., VI., VII., VIII., IX., X. (with or without trailing text)
+  romanSection: /^(I{1,3}|IV|VI{0,3}|IX|X{1,3})\.(\s|$)/,
+  // (geändert), (neu), (aufgehoben)
+  legalMarker: /\((geändert|neu|aufgehoben)\)/i,
+  // 1 Text..., 2 Text... (numbered paragraph at start)
+  numberedPara: /^\d+\s+[A-ZÄÖÜ]/,
+  // a. text, b. text, c. text
+  letteredItem: /^[a-z]\.\s/,
+};
+
+/**
+ * Detects if content matches Swiss legal heading patterns
+ */
+export const detectLegalHeadingType = (content: string): 'h1' | 'h2' | 'h3' | null => {
+  const trimmed = content.trim();
+  
+  // Roman numeral sections are top-level (## in MD = h2)
+  if (LEGAL_PATTERNS.romanSection.test(trimmed)) {
+    return 'h2';
+  }
+  
+  // Articles are subsections (### in MD = h3)
+  if (LEGAL_PATTERNS.article.test(trimmed)) {
+    return 'h3';
+  }
+  
+  return null;
+};
+
+/**
+ * Detects if content is a lettered list item (a., b., c.)
+ */
+export const detectLetteredItem = (content: string): boolean => {
+  return LEGAL_PATTERNS.letteredItem.test(content.trim());
+};
+
+/**
+ * Post-process blocks to apply Swiss legal document structure
+ */
+export const applyLegalPatterns = (blocks: Block[]): Block[] => {
+  return blocks.map(block => {
+    const detectedType = detectLegalHeadingType(block.content);
+    
+    if (detectedType && block.type === 'p') {
+      return { ...block, type: detectedType };
+    }
+    
+    // Detect lettered items as abc list type
+    if (block.type === 'p' && detectLetteredItem(block.content)) {
+      return { ...block, type: 'abc' as const };
+    }
+    
+    return block;
+  });
+};
+
+/**
+ * Enhanced parseHtml with Swiss legal document support
+ */
+export const parseHtmlLegal = (html: string): Block[] => {
+  const blocks = parseHtml(html);
+  return applyLegalPatterns(blocks);
+};
+
+
 export const convertToXml = (blocks: Block[]): string => {
     const escape = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     
