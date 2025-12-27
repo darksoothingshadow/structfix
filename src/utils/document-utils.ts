@@ -73,7 +73,7 @@ export const parseHtml = (html: string): Block[] => {
         }
 
         // Block-level elements that cause a break
-        const isBlock = ['div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'br', 'section', 'article', 'blockquote', 'header', 'footer', 'main', 'nav'].includes(childTag);
+        const isBlock = ['div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'br', 'section', 'article', 'blockquote', 'header', 'footer', 'main', 'nav', 'table', 'thead', 'tbody', 'tr', 'td', 'th'].includes(childTag);
         
         if (isBlock) {
           flush();
