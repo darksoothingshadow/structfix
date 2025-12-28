@@ -13,6 +13,11 @@ trigger: on_ui_change
 
 ## 1. Design System Rules
 
+### Single-Column Focus
+- No sidebars; maximum focus on content
+- "Zen Mode" by default
+- UI elements should be transient (toasts, floating toolbars)
+
 ### DaisyUI First
 - Use semantic component classes (`btn`, `card`, `input`, `modal`)
 - Override colors ONLY via the `democratis` theme

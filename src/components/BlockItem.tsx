@@ -113,15 +113,20 @@ export function BlockItem({
 
       {/* Content */}
       <div className="flex items-baseline flex-1 pr-4 py-1" style={{ paddingLeft: `${indentPixels}px` }}>
-        {block.type === 'ul' && (
+        {(block.type === 'ul') && (
           <div className="w-6 h-6 flex items-center justify-center flex-shrink-0 mr-1 select-none mt-0.5 z-10 relative">
             <span className="w-1.5 h-1.5 bg-gray-800 rounded-full" />
           </div>
         )}
-        {(block.type === 'ol' || block.type === 'abc') && (
-          <div className="w-auto min-w-[1.5rem] h-6 flex items-center justify-end flex-shrink-0 mr-2 select-none text-sm font-medium text-gray-500 mt-0.5 z-10 relative">
-            {listLabel}
-          </div>
+        {(block.type === 'ol') && (
+           <div className="w-auto min-w-[1.5rem] h-6 flex items-center justify-end flex-shrink-0 mr-2 select-none text-sm font-medium text-gray-500 mt-0.5 z-10 relative">
+             {listLabel}
+           </div>
+        )}
+        {(block.type === 'abc') && (
+           <div className="w-auto min-w-[1.5rem] h-6 flex items-center justify-end flex-shrink-0 mr-2 select-none text-sm font-medium text-gray-500 mt-0.5 z-10 relative">
+             <span className="text-sm font-medium">{String.fromCharCode(97 + (parseInt(listLabel) - 1))}.</span>
+           </div>
         )}
         {(block.type === 'h3') && (
           <div className="w-auto min-w-[1.5rem] h-6 flex items-center justify-end flex-shrink-0 mr-2 select-none text-xs font-bold text-blue-600 mt-1 z-10 relative">
@@ -143,10 +148,29 @@ export function BlockItem({
             ${block.type === 'h2' ? 'text-xl font-semibold mt-1 mb-1 text-gray-800 tracking-tight leading-tight' : ''}
             ${block.type === 'h3' ? 'text-lg font-bold mt-1 text-gray-800' : ''}
             ${['p', 'ul', 'ol', 'abc'].includes(block.type) ? 'text-base leading-7 text-gray-600' : ''}
-            ${block.type === 'table' ? 'w-full overflow-x-auto my-4' : ''}
-            ${isEditing ? (block.type === 'table' ? 'cursor-default' : 'cursor-text') : 'cursor-default pointer-events-none'}
+            ${block.type === 'table' ? 'hidden' : ''} 
+            ${isEditing ? 'cursor-text' : 'cursor-default pointer-events-none'}
           `}
         />
+        {block.type === 'table' && block.tableData && (
+          <div className="w-full overflow-x-auto my-4 border border-gray-200 rounded-lg">
+            <table className="w-full text-sm text-left text-gray-600">
+              <tbody>
+                {block.tableData.map((row, rIndex) => (
+                  <tr key={rIndex} className={`border-b border-gray-100 last:border-0 hover:bg-gray-50 ${rIndex === 0 ? 'bg-gray-50/50' : ''}`}>
+                    {row.map((cell, cIndex) => (
+                      <td 
+                        key={cIndex} 
+                        className={`px-4 py-2 border-r border-gray-100 last:border-0 align-top ${rIndex === 0 ? 'font-semibold text-gray-900' : ''}`} 
+                        dangerouslySetInnerHTML={{ __html: cell }} 
+                      />
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

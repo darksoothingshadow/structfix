@@ -5,6 +5,7 @@ export interface Block {
   content: string;
   type: BlockType;
   depth: number;
+  tableData?: string[][]; // 2D array for table content
 }
 
 export interface TreeNode {
@@ -29,7 +30,7 @@ export interface DoclingConvertResponse {
  * Validation helpers
  */
 export const isValidBlockType = (type: string): type is BlockType => {
-  return ['p', 'h1', 'h2', 'h3', 'ul', 'ol', 'abc', 'blockquote', 'code'].includes(type);
+  return ['p', 'h1', 'h2', 'h3', 'ul', 'ol', 'abc', 'blockquote', 'code', 'table'].includes(type);
 };
 
 export const isValidBlock = (obj: unknown): obj is Block => {

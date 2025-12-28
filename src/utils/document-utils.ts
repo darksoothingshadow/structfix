@@ -1,10 +1,17 @@
 import { Block, TreeNode } from '../types';
+import DOMPurify from 'dompurify';
 
 export const generateId = () => Math.random().toString(36).substring(2, 9);
 
 export const parseHtml = (html: string): Block[] => {
+  // Sanitize before parsing
+  const cleanHtml = DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'u', 's', 'strike', 'span', 'code', 'sub', 'sup', 'p', 'div', 'h1', 'h2', 'h3', 'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th', 'br', 'a'],
+    ALLOWED_ATTR: ['href', 'target', 'type', 'rowspan', 'colspan'], // explicitly no on* attributes
+  });
+
   const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
+  const doc = parser.parseFromString(cleanHtml, 'text/html');
   const blocks: Block[] = [];
 
   const clean = (text: string) => text.replace(/[\s\n]+/g, ' ').trim();
@@ -81,19 +88,42 @@ export const parseHtml = (html: string): Block[] => {
           if (childTag === 'br') {
              // just flush
           } else if (childTag === 'table') {
+             const tableEl = child as HTMLElement;
+             const rows = Array.from(tableEl.querySelectorAll('tr'));
+             const tableData = rows.map(tr => 
+               Array.from(tr.querySelectorAll('td, th')).map(td => td.innerHTML.trim())
+             );
+             
              blocks.push({
                id: generateId(),
-               content: (child as HTMLElement).outerHTML,
+               content: 'Table', // Placeholder content
                type: 'table',
-               depth: Math.min(depth, 5)
+               depth: Math.min(depth, 5),
+               tableData
              });
           } else if (childTag === 'ul' || childTag === 'ol') {
-             const nextDepth = listType ? depth + 1 : 0;
+             // For nested lists, we want to increment depth relative to current walking depth
+             // But if it's a top-level list (depth 0), it stays 0 unless inside another li?
+             // Actually, structfix model: depth is visual indent.
+             // If we encounter UL inside LI, it means indent.
+             const nextDepth = depth + 1; // Always increment depth for nested UL/OL structure
+             
              // Detect type="a" for abc lists?
              let nextListType: 'ul' | 'ol' | 'abc' = childTag as 'ul' | 'ol';
-             if (childTag === 'ol' && (child as HTMLElement).getAttribute('type') === 'a') {
-                 nextListType = 'abc';
+             const typeAttr = (child as HTMLElement).getAttribute('type');
+             
+             if (childTag === 'ol') {
+                 if (typeAttr === 'a') {
+                     nextListType = 'abc';
+                 } else if (!typeAttr) {
+                     // Heuristic: Check first few children for "a. " pattern
+                     const firstLi = Array.from(child.childNodes).find(n => n.nodeName.toLowerCase() === 'li');
+                     if (firstLi && firstLi.textContent && /^[a-z]\.\s/.test(firstLi.textContent.trim())) {
+                         nextListType = 'abc';
+                     }
+                 }
              }
+
              walk(child, nextDepth, nextListType);
           } else {
              walk(child, depth, listType);
@@ -129,6 +159,26 @@ const LEGAL_PATTERNS = {
 };
 
 /**
+ * Detects if a table is a "layout table" (single column, multi-row, used for document structure)
+ * vs a "data table" (2+ columns, used for actual tabular data)
+ */
+const isLayoutTable = (tableData: string[][]): boolean => {
+  if (tableData.length < 2) return false; // Single row is not a layout table
+  return tableData.every(row => row.length === 1);
+};
+
+/**
+ * Explodes a layout table into individual blocks by parsing each cell's HTML
+ */
+const explodeLayoutTable = (tableData: string[][]): Block[] => {
+  return tableData.flatMap(row => {
+    const cellHtml = row[0];
+    if (!cellHtml || !cellHtml.trim()) return []; // Skip empty cells
+    return parseHtml(cellHtml); // Recursive parse
+  });
+};
+
+/**
  * Detects if content matches Swiss legal heading patterns
  */
 export const detectLegalHeadingType = (content: string): 'h1' | 'h2' | 'h3' | null => {
@@ -158,19 +208,112 @@ export const detectLetteredItem = (content: string): boolean => {
  * Post-process blocks to apply Swiss legal document structure
  */
 export const applyLegalPatterns = (blocks: Block[]): Block[] => {
-  return blocks.map(block => {
-    const detectedType = detectLegalHeadingType(block.content);
+  return blocks.flatMap(block => {
+    let content = block.content;
+
+    // 0. Table Explosion (FIRST - before other processing)
+    if (block.type === 'table' && block.tableData) {
+        // Single-column layout table -> Explode and recursively process
+        if (isLayoutTable(block.tableData)) {
+            const explodedBlocks = explodeLayoutTable(block.tableData);
+            // Recursively apply legal patterns to exploded blocks
+            return applyLegalPatterns(explodedBlocks);
+        }
+        
+        // 2-column marker table -> Convert to list
+        if (block.tableData.length === 1) {
+            const row = block.tableData[0];
+            if (row.length === 2) {
+                const marker = row[0].replace(/&nbsp;/g, ' ').trim();
+                const cellContent = row[1];
+                
+                if (/^\d+\.$/.test(marker)) {
+                    return [{
+                        ...block,
+                        type: 'ol' as const,
+                        content: cellContent,
+                        tableData: undefined
+                    }];
+                }
+                
+                if (/^[a-z]\.$/.test(marker)) {
+                    return [{
+                        ...block,
+                        type: 'abc' as const,
+                        content: cellContent,
+                        tableData: undefined
+                    }];
+                }
+            }
+        }
+        
+        // Real data table - keep as is
+        return [block];
+    }
+
+    // 1. Superscript Normalization: "<sup>1</sup> Text" -> "1 Text"
+    if (content.includes('<sup>')) {
+       content = content.replace(/<sup>(\d+)<\/sup>/g, '$1 ');
+       content = content.replace(/\s+/g, ' ').trim();
+    }
+
+    const detectedType = detectLegalHeadingType(content);
     
     if (detectedType && block.type === 'p') {
-      return { ...block, type: detectedType };
+      return [{ ...block, content, type: detectedType }];
     }
     
-    // Detect lettered items as abc list type
-    if (block.type === 'p' && detectLetteredItem(block.content)) {
-      return { ...block, type: 'abc' as const };
+    // GUARD: ol/abc blocks with ONLY bold content are section headers, not lists
+    // e.g., <ol><li><strong>Wahlen</strong></li></ol> should become h2
+    if ((block.type === 'ol' || block.type === 'abc') && 
+        /^<strong>.*<\/strong>$/.test(content.trim())) {
+      return [{ ...block, content, type: 'h2' as const }];
     }
     
-    return block;
+    // 2. List Resurrection
+    if (block.type === 'p') {
+        // Normalize content for detection (strip tags, convert nbsp to space)
+        const cleanText = content.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\u00A0/g, ' ').trim();
+
+        // GUARD: Skip if content is primarily bold (likely a section header, not a list item)
+        // e.g., "<strong>1. Landsgemeinde</strong>" should be a header, not ol
+        const isBoldHeader = /^<(strong|b)>.*<\/(strong|b)>$/.test(content.trim()) ||
+                             /^<ol><li><strong>/.test(content.trim()); // Nested bold in ol
+        
+        if (isBoldHeader) {
+            // Treat as h2/h3 header instead
+            return [{ ...block, content, type: 'h2' as const }];
+        }
+
+        // Numbered Lists (1. Item)
+        if (/^\d+\.\s/.test(cleanText)) {
+             // Attempt to strip the prefix from the actual HTML content
+             // Pattern: Optional tags, Number, Dot, Optional closing tags, Whitespace/NBSP
+             const prefixMatch = content.match(/^(\s*<[^>]+>)*\s*\d+\.(\s*<\/[^>]+>)*(\s|&nbsp;|\u00A0)+/);
+             
+             if (prefixMatch) {
+                 return [{
+                     ...block,
+                     type: 'ol' as const,
+                     content: content.replace(prefixMatch[0], '')
+                 }];
+             }
+        }
+        
+        // Lettered Lists (a. Item)
+        if (/^[a-z]\.\s/.test(cleanText)) {
+             const prefixMatch = content.match(/^(\s*<[^>]+>)*\s*[a-z]\.(\s*<\/[^>]+>)*(\s|&nbsp;|\u00A0)+/);
+             if (prefixMatch) {
+                 return [{
+                     ...block,
+                     type: 'abc' as const,
+                     content: content.replace(prefixMatch[0], '')
+                 }];
+             }
+        }
+    }
+    
+    return [{ ...block, content }];
   });
 };
 
@@ -198,8 +341,23 @@ export const convertToXml = (blocks: Block[]): string => {
 
 export const convertToHtml = (blocks: Block[]): string => {
     const content = blocks.map(block => {
-        const tag = ['h1', 'h2'].includes(block.type) ? block.type : 'div';
         const indent = block.depth * 20;
+        
+        if (block.type === 'table' && block.tableData) {
+            const rows = block.tableData.map(row => 
+                `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`
+            ).join('');
+            return `<table data-id="${block.id}" style="margin-left: ${indent}px">${rows}</table>`;
+        }
+        
+        if (block.type === 'abc') {
+            return `<ol type="a" data-id="${block.id}" class="block-abc" style="margin-left: ${indent}px"><li>${block.content}</li></ol>`;
+        }
+
+        const tag = ['h1', 'h2', 'h3', 'p'].includes(block.type) ? block.type : 'div';
+        if (block.type === 'ul') return `<ul data-id="${block.id}" style="margin-left: ${indent}px"><li>${block.content}</li></ul>`;
+        if (block.type === 'ol') return `<ol data-id="${block.id}" style="margin-left: ${indent}px"><li>${block.content}</li></ol>`;
+
         return `<${tag} data-id="${block.id}" class="block-${block.type}" style="margin-left: ${indent}px">${block.content}</${tag}>`;
     }).join('\n');
     

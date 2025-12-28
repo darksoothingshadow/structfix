@@ -13,9 +13,7 @@ interface EditorProps {
   pdfUrl: string | null;
   onBack: () => void;
   onDownload?: (format: 'json' | 'xml' | 'html') => void;
-  onAutoSave?: (blocks: Block[]) => void;
 }
-
 interface EnrichedBlock extends Block {
   level: number;
   lines: { depth: number; type: 'vertical' | 'corner' | 'branch' }[];
@@ -43,7 +41,7 @@ const isCursorAtEnd = (el: HTMLElement) => {
   return postRange.toString().trim().length === 0;
 };
 
-export function Editor({ initialBlocks, pdfUrl, onBack, onDownload, onAutoSave }: EditorProps) {
+export function Editor({ initialBlocks, pdfUrl, onBack, onDownload }: EditorProps) {
   const {
     blocks,
     undo,
@@ -73,13 +71,6 @@ export function Editor({ initialBlocks, pdfUrl, onBack, onDownload, onAutoSave }
     lastSelectedId, // Kept for handleGlobalKeyDown
     anchorId // Kept for handleGlobalKeyDown
   } = useEditor(initialBlocks);
-
-  // Auto-Save Effect
-  useEffect(() => {
-    if (onAutoSave && blocks.length > 0) {
-      onAutoSave(blocks);
-    }
-  }, [blocks, onAutoSave]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [dropTarget, setDropTarget] = useState<{ id: string; position: 'top' | 'bottom' } | null>(null);
@@ -220,7 +211,10 @@ export function Editor({ initialBlocks, pdfUrl, onBack, onDownload, onAutoSave }
                 <div onClick={(e) => { e.stopPropagation(); addBlock(); }} className="absolute inset-0 flex flex-col items-center justify-center text-gray-300 cursor-pointer hover:text-gray-500 transition-colors border-2 border-dashed border-gray-100 rounded-xl m-4">
                   <Plus size={32} className="mb-2 opacity-50" /><p className="font-medium">List is empty</p><p className="text-sm">Click here to start writing</p>
                 </div>
-              ) : enrichedBlocks.map((block) => {
+              ) : (() => {
+                  const listCounters: Record<number, { type: string, count: number }> = {};
+                  return enrichedBlocks.map((block) => {
+
                 for (let d = block.depth + 1; d <= 6; d++) delete listCounters[d];
                 let listLabel = '';
                 if (block.type === 'ol' || block.type === 'abc') {
@@ -230,12 +224,14 @@ export function Editor({ initialBlocks, pdfUrl, onBack, onDownload, onAutoSave }
                   listLabel = block.type === 'ol' ? `${current.count}.` : `${'abcdefghijklmnopqrstuvwxyz'[(current.count - 1) % 26]})`;
                 } else delete listCounters[block.depth];
                 return (
+                  // @ts-ignore - Key is required for map but TS complains about Props mismatch
                   <BlockItem key={block.id} block={block} isSelected={selectedIds.has(block.id)} isEditing={editingId === block.id} isDragging={draggedBlockId === block.id}
                     isDropTarget={dropTarget?.id === block.id} dropPosition={dropTarget?.id === block.id ? dropTarget.position : null} listLabel={listLabel} hoveredHandleId={hoveredHandleId} blockRefs={blockRefs}
                     onDragStart={handleDragStart} onDragOver={handleDragOver} onDrop={handleDrop} onDragEnd={handleDragEnd} onClick={handleBlockClick} onDoubleClick={handleBlockDoubleClick}
                     onHoverHandle={setHoveredHandleId} onUpdateContent={(id, val) => updateBlock(id, { content: val })} onKeyDown={handleBlockKeyDown} onFocus={setEditingId} />
                 );
-              })}
+                });
+              })()}
             </div>
           </div>
           <FloatingToolbar selectedCount={selectedIds.size} isEditing={!!editingId} onFormat={handleFormat} onUpdateType={bulkUpdateType} onDelete={bulkDelete} onClearSelection={clearSelection} />

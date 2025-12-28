@@ -13,6 +13,11 @@ trigger: on_data_change
 
 ## 1. Data Integrity Rules
 
+### Stateless / Local-First
+- Editor state is ephemeral; NO persistent localStorage allowed
+- Data lives only in memory or explicitly exported files
+- Auto-save is FORBIDDEN; user must manually download/save
+
 ### Type Safety
 - All data structures MUST use TypeScript interfaces from `src/types/`
 - No `any` types in parser or export functions
@@ -24,6 +29,11 @@ trigger: on_data_change
 ### Sanitize Inputs
 - Never trust Docling HTML directly
 - Strip dangerous tags, validate structure before injecting into state
+
+### Known Limitations & Trust Boundaries
+- **Tables**: Supported but basic (grid only, styles lost).
+- **Mismatched Lists**: Lettered lists (a. b.) rely on heuristics if types missing.
+- **Consult `LIMITATIONS.md`**: Before flagging "bugs", verify if it's a known constraint.
 
 ### Export Fidelity
 - Round-trip verification: Import → Edit → Export → Re-import should yield identical blocks
