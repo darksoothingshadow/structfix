@@ -143,7 +143,8 @@ export function BlockItem({
             ${block.type === 'h2' ? 'text-xl font-semibold mt-1 mb-1 text-gray-800 tracking-tight leading-tight' : ''}
             ${block.type === 'h3' ? 'text-lg font-bold mt-1 text-gray-800' : ''}
             ${['p', 'ul', 'ol', 'abc'].includes(block.type) ? 'text-base leading-7 text-gray-600' : ''}
-            ${isEditing ? 'cursor-text' : 'cursor-default pointer-events-none'}
+            ${block.type === 'table' ? 'w-full overflow-x-auto my-4' : ''}
+            ${isEditing ? (block.type === 'table' ? 'cursor-default' : 'cursor-text') : 'cursor-default pointer-events-none'}
           `}
         />
       </div>

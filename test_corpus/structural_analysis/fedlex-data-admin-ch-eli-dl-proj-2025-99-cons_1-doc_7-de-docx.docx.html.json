@@ -1,0 +1,314 @@
+[
+  {
+    "id": "dj9xzjo",
+    "content": "Fragebogen zur Vernehmlassungsvorlage",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "0b3zr4c",
+    "content": "Teilrevision des Fernmeldegesetzes (FMG) im Bereich Mobilfunk",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "mkbicbp",
+    "content": "<strong>Diese Stellungnahme wurde eingereicht von:</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "58ccetx",
+    "content": "<input type=\"checkbox\"> Kanton",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "9iv44od",
+    "content": "<input type=\"checkbox\"> In der Bundesversammlung vertretene politische Partei",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "fqyv5t2",
+    "content": "<input type=\"checkbox\"> Gesamtschweizerischer Verband",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "oj8ukf2",
+    "content": "<input type=\"checkbox\"> Weitere interessierte Organisationen / Unternehmen",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "id0l2ty",
+    "content": "<input type=\"checkbox\"> Nicht offiziell angeschriebene Organisationen / Unternehmen / Privatperson",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "dl90es7",
+    "content": "<strong>Name der Absenderin oder des Absenders (Institution, Unternehmen, Privatperson):</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "1timyei",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "y3hgkmw",
+    "content": "<strong>Kontaktperson (Name, Telefon, E-Mail) für allfällige Rückfragen:</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "rfb9fiw",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "jibjqyn",
+    "content": "<em>Bitte senden Sie Ihre Stellungnahme bis spätestens am 31. März 2026 elektronisch an <br></em><a href=\"mailto:kf-sekretariat@bakom.admin.ch\"><em>kf-sekretariat@bakom.admin.ch</em></a><em>. Sie erleichtern uns die Auswertung, wenn Sie uns Ihre Stellungnahme als PDF- und Word-Dokument zur Verfügung stellen.</em>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "5djf6tc",
+    "content": "<strong>Allgemeine Bemerkungen</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "m711svl",
+    "content": "Haben Sie allgemeine Bemerkungen zur Vernehmlassungsvorlage?",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "dcz3u0r",
+    "content": "<input type=\"checkbox\"> Ja\t<input type=\"checkbox\"> Nein",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "lvjffsr",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "5pdnlcq",
+    "content": "<strong>Spezifische Bemerkungen zu einzelnen Teilen des erläuternden Berichts</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "00q173b",
+    "content": "Haben Sie spezifische Bemerkungen zu folgenden Teilen des erläuternden Berichts?",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "fuknw59",
+    "content": "Ausgangslage",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "qrtdsrq",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "efer618",
+    "content": "Rechtsvergleich, insbesondere mit dem europäischen Recht",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "9ed2ijv",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "t9ddj83",
+    "content": "Grundzüge der Vorlage",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "jgny01r",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "nv8e5m4",
+    "content": "Erläuterungen zu einzelnen Artikeln",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "rzb8e8q",
+    "content": "<em>Siehe nachfolgendes Kapitel</em>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "8yxxbes",
+    "content": "Auswirkungen",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "k407zqj",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "fzwgyo5",
+    "content": "Rechtliche Aspekte",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "kida6jg",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "0wwhvhp",
+    "content": "<strong>Spezifische Bemerkungen zu einzelnen Artikeln</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "ugbrldq",
+    "content": "Haben Sie spezifische Bemerkungen zu folgenden Bestimmungen (Wortlaut des Gesetzesentwurfs sowie zugehörige Erläuterungen)?",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "1akq1s6",
+    "content": "Art. 24<em>f </em>Abs. 1 und Abs. 3",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "ragj3ql",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "oz3fq94",
+    "content": "Art. 37<em>b</em>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "ux0uo42",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "hatkt55",
+    "content": "Art. 37<em>c</em>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "mbzony9",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "fyimayb",
+    "content": "Art. 37<em>d</em>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "7gfrcqp",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "jsn78zd",
+    "content": "Art. 37<em>e</em>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "yhhc633",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "kdfwoaq",
+    "content": "Art. 37<em>f</em>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "26y2vqk",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "xecfzqg",
+    "content": "Art. 37<em>g</em>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "o9kse74",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "y4uarty",
+    "content": "Art. 51",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "qn7uw6u",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "4tz6zrs",
+    "content": "Art. 62 Abs. 1 und Abs. 1<sup>bis</sup>",
+    "type": "h3",
+    "depth": 0
+  },
+  {
+    "id": "imbfn65",
+    "content": "Klicken oder tippen Sie hier, um Text einzugeben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "x90c5s6",
+    "content": "<em>Vielen Dank für Ihre Rückmeldung.</em>",
+    "type": "p",
+    "depth": 0
+  }
+]

@@ -231,3 +231,33 @@
 html {
   font-size: var(--font-size);
 }
+
+/* Table Support in Editor */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  border: 1px solid #e5e7eb;
+}
+
+th, td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+td {
+  color: #4b5563;
+}

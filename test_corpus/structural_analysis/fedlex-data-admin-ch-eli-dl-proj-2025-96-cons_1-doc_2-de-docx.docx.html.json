@@ -1,0 +1,266 @@
+[
+  {
+    "id": "ks2rbgw",
+    "content": "<strong>Stellungnahme von</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "q8ace8v",
+    "content": "Name / Firma / Organisation\t: <a id=\"Text1\"></a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "65aoh7e",
+    "content": "Abkürzung der Firma / Organisation\t: <a id=\"Abk\"></a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "fv1y3ov",
+    "content": "Adresse\t: <a id=\"Text3\"></a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "aznpk8i",
+    "content": "Kontaktperson\t: <a id=\"Text4\"></a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "i2kl3w3",
+    "content": "Telefon\t: <a id=\"Text5\"></a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "98cyj55",
+    "content": "E-Mail\t:",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "8tex68s",
+    "content": "Datum\t:",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "ysfx8j9",
+    "content": "<strong>Wichtige Hinweise:</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "ato7we4",
+    "content": "Wir bitten Sie keine Formatierungsänderungen im Formular vorzunehmen und nur die grauen Formularfelder auszufüllen.",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "wcgbdy6",
+    "content": "Bitte pro Artikel, Absatz und Buchstabe oder pro Kapitel des erläuternden Berichtes eine Zeile verwenden.",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "2wkl7cz",
+    "content": "Ihre elektronische Stellungnahme senden Sie bitte <strong>als Word-Dokument</strong> bis am <strong>19. Februar 2026</strong> an folgende E-Mail Adressen:",
+    "type": "ol",
+    "depth": 0
+  },
+  {
+    "id": "e7e3fmh",
+    "content": "<a href=\"mailto:aufsicht@bag.admin.ch\">aufsicht@bag.admin.ch</a>; <a href=\"mailto:gever@bag.admin.ch\">gever@bag.admin.ch</a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "r5dj728",
+    "content": "<strong>Herzlichen Dank für Ihre Mitwirkung!</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "4nji7d6",
+    "content": "Inhaltsverzeichnis",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "dfdrx94",
+    "content": "<a href=\"#_Toc209688201\">Allgemeine Bemerkungen\t3</a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "xe6hz5b",
+    "content": "<a href=\"#_Toc209688202\">Bemerkungen zur Änderung der Krankenversicherungsaufsichtsverordnung (KVAV)\t4</a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "y2twxzc",
+    "content": "<a href=\"#_Toc209688203\">Bemerkungen zur Änderung der Krankenversicherungsverordnung (KVV)\t5</a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "rodper4",
+    "content": "<a href=\"#_Toc209688204\">Weitere Vorschläge\t6</a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "iogqasy",
+    "content": "Allgemeine Bemerkungen",
+    "type": "h1",
+    "depth": 0
+  },
+  {
+    "id": "fsk7bif",
+    "content": "<strong>Name/Firma</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "4a24dj4",
+    "content": "<strong>Bemerkung/Anregung</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "lzalui0",
+    "content": "<a id=\"Text8\"></a>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "lwaoamu",
+    "content": "Wenn Sie einzelne Tabellen im Formular löschen oder neue Zeilen hinzufügen möchten, so können Sie unter \"Überprüfen/Dokument schützen/ Schutz aufheben\" den Schreibschutz aufheben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "kio61y4",
+    "content": "Bemerkungen zur Änderung der Krankenversicherungsaufsichtsverordnung (KVAV)",
+    "type": "h1",
+    "depth": 0
+  },
+  {
+    "id": "fl2tf7n",
+    "content": "<strong>Name/Firma</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "y2dmn4r",
+    "content": "<strong>Art.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "jgzcv2o",
+    "content": "<strong>Abs.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "34xlkan",
+    "content": "<strong>Bst.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "10t54kk",
+    "content": "<strong>Bemerkung/Anregung</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "y3cimk7",
+    "content": "<strong>Antrag für Änderungsvorschlag (Textvorschlag)</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "zj6ufp4",
+    "content": "Wenn Sie einzelne Tabellen im Formular löschen oder neue Zeilen hinzufügen möchten, so können Sie unter \"Überprüfen/Dokument schützen/ Schutz aufheben\" den Schreibschutz aufheben.",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "vflouxd",
+    "content": "Bemerkungen zur Änderung der Krankenversicherungsverordnung (KVV)",
+    "type": "h1",
+    "depth": 0
+  },
+  {
+    "id": "vgnp8i5",
+    "content": "<strong>Name/Firma</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "08sdnaw",
+    "content": "<strong>Art.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "n75zokk",
+    "content": "<strong>Abs.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "gj3w141",
+    "content": "<strong>Bst.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "xsafmzw",
+    "content": "<strong>Bemerkung/Anregung</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "hv54p1h",
+    "content": "<strong>Antrag für Änderungsvorschlag (Textvorschlag)</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "n74u69a",
+    "content": "Weitere Vorschläge",
+    "type": "h1",
+    "depth": 0
+  },
+  {
+    "id": "kqpgjfj",
+    "content": "<strong>Name/Firma</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "hcnzr3n",
+    "content": "<strong>Art.</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "2ha93sd",
+    "content": "<strong>Bemerkung/Anregung</strong>",
+    "type": "p",
+    "depth": 0
+  },
+  {
+    "id": "xghqjom",
+    "content": "<strong>Textvorschlag</strong>",
+    "type": "p",
+    "depth": 0
+  }
+]

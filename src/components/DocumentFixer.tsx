@@ -7,7 +7,7 @@ import { Block } from '../types';
 import * as mammoth from 'mammoth';
 
 interface DocumentFixerProps {
-  onConvert: (blocks: Block[], pdfUrl: string | null) => void;
+  onConvert: (blocks: Block[], url: string | null, html?: string) => void;
 }
 
 export function DocumentFixer({ onConvert }: DocumentFixerProps) {
@@ -30,7 +30,18 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
     if (file.name.endsWith('.docx') || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
         try {
             const arrayBuffer = await file.arrayBuffer();
-            const result = await mammoth.convertToHtml({ arrayBuffer });
+            const options = {
+                styleMap: [
+                    "p[style-name='Erlasstitel'] => h1:fresh",
+                    "p[style-name='Titel Arbeitsversion'] => h1:fresh",
+                    "p[style-name='Abschnittstitel'] => h2:fresh",
+                    "p[style-name='Artikeltitel'] => h3:fresh",
+                    "p[style-name='Artikeltitel-Änderung'] => h3:fresh",
+                    "p[style-name='Ingress'] => p.ingress",
+                    "r[style-name='Fett'] => strong"
+                ]
+            };
+            const result = await mammoth.convertToHtml({ arrayBuffer }, options);
             const html = result.value; // The generated HTML
             const messages = result.messages; // Any warnings
             
@@ -48,7 +59,7 @@ export function DocumentFixer({ onConvert }: DocumentFixerProps) {
             if (newBlocks.length === 0) {
                  newBlocks = [{ id: generateId(), content: 'No structured content found in DOCX.', type: 'p', depth: 0 }];
             }
-            onConvert(newBlocks, sourceUrl); // Pass the Blob URL as the "pdfUrl"
+            onConvert(newBlocks, sourceUrl, html); // Pass HTML for persistence
             setIsLoading(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
             return;

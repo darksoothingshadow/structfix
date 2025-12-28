@@ -1,0 +1,7 @@
+p[style-name='Erlasstitel'] => h1:fresh
+p[style-name='Titel Arbeitsversion'] => h1:fresh
+p[style-name='Abschnittstitel'] => h2:fresh
+p[style-name='Artikeltitel'] => h3:fresh
+p[style-name='Artikeltitel-Änderung'] => h3:fresh
+p[style-name='Ingress'] => p.ingress
+r[style-name='Fett'] => strong

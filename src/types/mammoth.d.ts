@@ -8,5 +8,9 @@ declare module 'mammoth' {
         arrayBuffer: ArrayBuffer;
     }
 
-    export function convertToHtml(options: ConvertOptions): Promise<MammothResult>;
+    export interface MammothOptions {
+        styleMap?: string[];
+    }
+
+    export function convertToHtml(input: ConvertOptions, options?: MammothOptions): Promise<MammothResult>;
 }

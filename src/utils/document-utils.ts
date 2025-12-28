@@ -80,6 +80,13 @@ export const parseHtml = (html: string): Block[] => {
           
           if (childTag === 'br') {
              // just flush
+          } else if (childTag === 'table') {
+             blocks.push({
+               id: generateId(),
+               content: (child as HTMLElement).outerHTML,
+               type: 'table',
+               depth: Math.min(depth, 5)
+             });
           } else if (childTag === 'ul' || childTag === 'ol') {
              const nextDepth = listType ? depth + 1 : 0;
              // Detect type="a" for abc lists?
@@ -109,9 +116,9 @@ export const parseHtml = (html: string): Block[] => {
  * Post-processes blocks to detect legal document structure
  */
 const LEGAL_PATTERNS = {
-  // Art. 1, Art. 23a, Art. 1 Abs. 2
-  article: /^Art\.\s*\d+[a-z]?(\s+Abs\.\s*\d+)?/i,
-  // I., II., III., IV., V., VI., VII., VIII., IX., X. (with or without trailing text)
+  // Art. 1 or § 1 patterns
+  article: /^(Art\.|§)\s*\d+[a-z]?(\s+Abs\.\s*\d+)?/i,
+  // Section headers I. II. etc.
   romanSection: /^(I{1,3}|IV|VI{0,3}|IX|X{1,3})\.(\s|$)/,
   // (geändert), (neu), (aufgehoben)
   legalMarker: /\((geändert|neu|aufgehoben)\)/i,

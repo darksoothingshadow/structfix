@@ -1,4 +1,4 @@
-export type BlockType = 'p' | 'h1' | 'h2' | 'h3' | 'ul' | 'ol' | 'abc' | 'blockquote' | 'code';
+export type BlockType = 'p' | 'h1' | 'h2' | 'h3' | 'ul' | 'ol' | 'abc' | 'blockquote' | 'code' | 'table';
 
 export interface Block {
   id: string;

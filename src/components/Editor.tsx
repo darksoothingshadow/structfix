@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { useEditor } from '../hooks/useEditor';
 import { Block } from '../types';
@@ -12,6 +12,8 @@ interface EditorProps {
   initialBlocks: Block[];
   pdfUrl: string | null;
   onBack: () => void;
+  onDownload?: (format: 'json' | 'xml' | 'html') => void;
+  onAutoSave?: (blocks: Block[]) => void;
 }
 
 interface EnrichedBlock extends Block {
@@ -41,14 +43,43 @@ const isCursorAtEnd = (el: HTMLElement) => {
   return postRange.toString().trim().length === 0;
 };
 
-export function Editor({ initialBlocks, pdfUrl, onBack }: EditorProps) {
+export function Editor({ initialBlocks, pdfUrl, onBack, onDownload, onAutoSave }: EditorProps) {
   const {
-    blocks, historyIndex, history, selectedIds, editingId, setEditingId,
-    draggedBlockId, updateBlock, addBlock, removeBlock, moveBlock,
-    handleBlockClick, handleBlockDoubleClick, setDragBlock, clearSelection,
-    undo, redo, canUndo, canRedo, bulkUpdateType, bulkDelete, handleFormat,
-    indentSelection, blockRefs, lastSelectedId, anchorId
+    blocks,
+    undo,
+    redo,
+    historyIndex,
+    historyLength,
+    selectedIds,
+    editingId,
+    setEditingId,
+    setDragBlock,
+    moveBlock,
+    handleBlockClick,
+    handleBlockDoubleClick,
+    clearSelection,
+    addBlock,
+    removeBlock,
+    updateBlock,
+    bulkUpdateType,
+    bulkDelete,
+    handleFormat,
+    indentSelection,
+    blockRefs,
+    commit,
+    draggedBlockId, // Kept for handleDragOver and handleDrop
+    canUndo, // Kept for Toolbar
+    canRedo, // Kept for Toolbar
+    lastSelectedId, // Kept for handleGlobalKeyDown
+    anchorId // Kept for handleGlobalKeyDown
   } = useEditor(initialBlocks);
+
+  // Auto-Save Effect
+  useEffect(() => {
+    if (onAutoSave && blocks.length > 0) {
+      onAutoSave(blocks);
+    }
+  }, [blocks, onAutoSave]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [dropTarget, setDropTarget] = useState<{ id: string; position: 'top' | 'bottom' } | null>(null);
